@@ -1,4 +1,4 @@
-package com.turnquestlife.repository;
+package com.turnquestlife.auth_service.repository;
 
 import com.turnquestlife.authservice.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;

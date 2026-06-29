@@ -1,4 +1,4 @@
-package com.turnquestlife.config;
+package com.turnquestlife.auth_service.config;
 
 import org.sprigframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;

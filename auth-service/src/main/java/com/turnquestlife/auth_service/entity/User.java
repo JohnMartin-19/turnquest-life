@@ -1,4 +1,4 @@
-package com.turnquestlife.auth_service;
+package com.turnquestlife.auth_service.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

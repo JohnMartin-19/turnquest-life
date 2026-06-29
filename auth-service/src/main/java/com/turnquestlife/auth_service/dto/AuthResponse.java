@@ -1,4 +1,4 @@
-package com.turnquestlife.dto;
+package com.turnquestlife.auth_service.dto;
 
 import com.turnquest.auth_service.entity.Role;
 import jakarta.validation.constraints.*;

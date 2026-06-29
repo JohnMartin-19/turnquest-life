@@ -33,7 +33,6 @@ public class User implements UserDetails {
     private String fullName;
 
     @Column(unique = true, length = 150, nullable = false)
-    @Email
     private String email;
 
     @Column(length = 100, nullable = false)
@@ -61,7 +60,9 @@ public class User implements UserDetails {
     }
 
     @Override
-    public String getPassword(){return password};
+    public String getPassword(){
+        return password
+    };
 
     @Override
     public String getUsername() {

@@ -4,9 +4,12 @@ import com.turnquest.auth_service.entity.Role;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
+
 @Data
-public class ApiResponse {
-    private String message;
-    private boolean success;
-    private <T> data;
+public class AuthResponse {
+
+    private String fullName;
+    private String email;
+    private Role role;
+    private String token;
 }

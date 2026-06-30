@@ -1,7 +1,10 @@
 package com.turnquestlife.auth_service.controller;
 
-import com.tunrquestlife.auth_service.dto.*;
-import com.turnquestlife.authservice.service.AuthService;
+import com.turnquestlife.auth_service.dto.ApiResponse;
+import com.turnquestlife.auth_service.dto.AuthResponse;
+import com.turnquestlife.auth_service.dto.LoginRequest;
+import com.turnquestlife.auth_service.dto.RegisterRequest;
+import com.turnquestlife.auth_service.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -13,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
-@Tag(name = "Authentication", description = "Register and Login endpoints")
+@Tag(name = "Authentication", description = "Register and login endpoints")
 public class AuthController {
 
     private final AuthService authService;

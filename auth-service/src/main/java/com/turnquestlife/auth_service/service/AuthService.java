@@ -1,10 +1,13 @@
 package com.turnquestlife.auth_service.service;
 
-import com.turnquestlife.auth_service.dto.*;
-import com.turnquestlife.auth_service.entity.*;
-import com.turnquestlife.auth_service.repository.*;
-import com.turnquestlife.auth_service.secuirty.*;
-import lombok.*;
+import com.turnquestlife.auth_service.dto.AuthResponse;
+import com.turnquestlife.auth_service.dto.LoginRequest;
+import com.turnquestlife.auth_service.dto.RegisterRequest;
+import com.turnquestlife.auth_service.entity.User;
+import com.turnquestlife.auth_service.repository.UserRepository;
+import com.turnquestlife.auth_service.security.JwtService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,30 +23,27 @@ public class AuthService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-
     public AuthResponse register(RegisterRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new IllegalArgumentException("Email already exists: " + request.getEmail());
+            throw new IllegalArgumentException("Email already registered: " + request.getEmail());
         }
 
         User user = User.builder()
-                .fullName(request.getfullName())
+                .fullName(request.getFullName())
                 .email(request.getEmail())
-                .passowrd(passwordEncoder.encode(request.getPassword()))
+                .password(passwordEncoder.encode(request.getPassword()))
                 .role(request.getRole())
-                .build()
+                .build();
 
-        userRepository.save(user); //similar to .save() in Django
-        log.info("New user registered: {}", user.getEmail());
+        userRepository.save(user);
+        log.info("New user registered: {} with role: {}", user.getEmail(), user.getRole());
 
-        // generating a JWT token once the user has been registered successfully
         return AuthResponse.builder()
                 .token(jwtService.generateToken(user))
                 .email(user.getEmail())
                 .fullName(user.getFullName())
-                .role(user.getRole())
+                .role(user.getRole().name())
                 .build();
-
     }
 
     public AuthResponse login(LoginRequest request) {
@@ -57,9 +57,8 @@ public class AuthService {
         return AuthResponse.builder()
                 .token(jwtService.generateToken(user))
                 .email(user.getEmail())
-                .fullName(user.getFullName)
-                .role(user.getRole)
+                .fullName(user.getFullName())
+                .role(user.getRole().name())
                 .build();
     }
-
 }

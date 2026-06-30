@@ -2,17 +2,16 @@ package com.turnquestlife.auth_service.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.sringframework.data.annotation.CreateDate;
-import org.sringframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditEntityListener;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
-
 
 @Entity
 @Table(name = "users")
@@ -22,7 +21,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
 public class User implements UserDetails {
 
     @Id
@@ -32,10 +30,10 @@ public class User implements UserDetails {
     @Column(nullable = false, length = 100)
     private String fullName;
 
-    @Column(unique = true, length = 150, nullable = false)
+    @Column(nullable = false, unique = true, length = 150)
     private String email;
 
-    @Column(length = 100, nullable = false)
+    @Column(nullable = false)
     private String password;
 
     @Enumerated(EnumType.STRING)
@@ -44,14 +42,13 @@ public class User implements UserDetails {
 
     @Column(nullable = false)
     @Builder.Default
-    private boolean active;
+    private boolean active = true;
 
-    @CreatedAt
+    @CreatedDate
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
-    @LastModifiedAt
-    @Column(updatable = true)
+    @LastModifiedDate
     private LocalDateTime updatedAt;
 
     @Override
@@ -60,36 +57,20 @@ public class User implements UserDetails {
     }
 
     @Override
-    public String getPassword(){
-        return password
-    };
+    public String getPassword() { return password; }
 
     @Override
-    public String getUsername() {
-        return email;
-    }
+    public String getUsername() { return email; }
 
     @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
+    public boolean isAccountNonExpired() { return true; }
 
     @Override
-    public boolean isAccountNonBlocked() {
-        return true;
-    }
+    public boolean isAccountNonLocked() { return true; }
 
     @Override
-    public boolean isCredebtialsNonExpired() {
-        return true;
-    }
+    public boolean isCredentialsNonExpired() { return true; }
 
-    @Override boolean isEnabled() {
-        return active;
-    }
-
-
-
-
+    @Override
+    public boolean isEnabled() { return active; }
 }
-

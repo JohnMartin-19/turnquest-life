@@ -1,8 +1,8 @@
-package com.turnquest.auth_service.config;
+package com.turnquestlife.auth_service.config;
 
 import com.turnquestlife.auth_service.repository.UserRepository;
 import com.turnquestlife.auth_service.security.JwtAuthFilter;
-import lombok.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,12 +30,12 @@ public class SecurityConfig {
     @Bean
     public UserDetailsService userDetailsService() {
         return email -> userRepository.findByEmail(email)
-                .orElseThrow( () -> new UsernameNotFoundException("User not found: " + email))
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
     }
 
     @Bean
-    public PassowrdEncoder passowrdEncoder() {
-        return new BCryptPsswordEncoder();
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -47,28 +47,28 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager (AuthenticationConfiguration config) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config)
+            throws Exception {
         return config.getAuthenticationManager();
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
-                .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/api/v1/auth/**",
-                                "/swagger-ui/**",
-                                "/swagger-ui.html",
-                                "/v3/api-docs/**"
-                        ).permitAll()
-                        .anyRequest().authenticated()
-                )
-                .authenticationProvider(authenticationProvider())
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+            .csrf(csrf -> csrf.disable())
+            .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeHttpRequests(auth -> auth
+                    .requestMatchers(
+                            "/api/v1/auth/**",
+                            "/swagger-ui/**",
+                            "/swagger-ui.html",
+                            "/v3/api-docs/**"
+                    ).permitAll()
+                    .anyRequest().authenticated()
+            )
+            .authenticationProvider(authenticationProvider())
+            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
-
 }

@@ -1,12 +1,12 @@
-package com.turnquestlife.auth_servicedto;
+package com.turnquestlife.auth_service.dto;
 
-import com.turnquest.auth_service.entity.Role;
-import jakarta.validation.constraints.*;
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
 
 @Data
-public class ApiResponse {
+@Builder
+public class ApiResponse<T> {
     private String message;
     private boolean success;
-    private <T> data;
+    private T data;
 }

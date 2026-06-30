@@ -1,4 +1,4 @@
-package com.turnquestlife.authservice.security;
+package com.turnquestlife.auth_service.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

@@ -1,14 +1,12 @@
-package com.turnquestlife.exception;
+package com.turnquestlife.auth_service.exception;
 
-import com.trunquestlife.auth_service.dto.ApiResponse;
-import jakarta.servlet.http.HttpServletRequest;
+import com.turnquestlife.auth_service.dto.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
 
 import java.util.stream.Collectors;
 

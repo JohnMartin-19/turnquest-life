@@ -1,19 +1,16 @@
-package com.turnquestlife.auth_servicedto;
+package com.turnquestlife.auth_service.dto;
 
-import com.turnquest.auth_service.entity.Role;
-import jakarta.validation.constraints.*;
-import lombok.*;
-
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 
 @Data
 public class LoginRequest {
 
-    @NotBlank(message = "Username must be provided")
-    @Email(message = "Must be a valid email")
+    @NotBlank(message = "Email is required")
+    @Email(message = "Must be a valid email address")
     private String email;
 
-    @NotBlank(message = "Password must be provided")
-    @Size(min = 6, message = "Passowrd must be atleast 6 characters")
+    @NotBlank(message = "Password is required")
     private String password;
-
 }

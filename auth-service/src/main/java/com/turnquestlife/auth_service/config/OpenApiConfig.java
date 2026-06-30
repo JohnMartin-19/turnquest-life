@@ -1,4 +1,4 @@
-package com.turnquestlife.authservice.config;
+package com.turnquestlife.auth_service.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;

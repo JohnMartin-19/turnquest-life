@@ -11,8 +11,8 @@
 	<groupId>com.turnquestlife</groupId>
 	<artifactId>client-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name/>
-	<description/>
+	<name>client-service<name/>
+	<description>TurnQuest Life - Client/Policyholder Management <description/>
 	<url/>
 	<licenses>
 		<license/>

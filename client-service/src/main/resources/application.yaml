@@ -7,15 +7,15 @@ spring:
 
   datasource:
     url: jdbc:postgresql://localhost:5432/client_db
-    uername: mburu;
-    password: mburu;
+    username: mburu
+    password: mburu
     driver-clas-name: org.postgresql.Driver
 
 
   jpa:
     hibernate:
       ddl-auto: update
-      show-sql: treu
+      show-sql: true
       properties:
         hibernate:
           format_sql: true

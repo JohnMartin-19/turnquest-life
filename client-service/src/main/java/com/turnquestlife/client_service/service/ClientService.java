@@ -49,4 +49,89 @@ public class ClientService {
         log.info("Client with ID: {}", saved.getId());
         return toResponse(saved);
     }
+
+    //READ
+    @Transactional(readOnly = true)
+    public ClientResponse getById(Long id) {
+        return toResponse(findOrThrow(id));
+    }
+
+    @Transactional(readOnly = true)
+    public ClientResponse getByIdNumber(String idNumber) {
+        return ClientRepository.findByIdNumber(idNumber)
+                .map(this::toResponse)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Client with the provided id not found"));
+    }
+
+    @Transactional(readOnly = true)
+    public Page<ClientResponse> search(String keyword, int page, int size) {
+        Pageable pageable = PageRequest.of(page,size, Sort.by("firstName"));
+        return clientRespository.search(keyword,pageable).map(this::toResponse);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<ClientResponse> getByKycStatus(KycStatus kycStatus, int page, int size) {
+        Pageable pageable = PageRequest.of(page,size,Sort.by(SortDirection.DESC, "createdAt"));
+        return clientRespository.findByKycStatus(status, pageable).map(this::toResponse);
+    }
+
+    ///UPDATE PUT/UPDATE
+
+    @Transactional
+    public ClientResponse update(Long id, ClientRequest request) {
+        Client client = Client.findOrThrow(id);
+        client.setFirstName(request.getFirstName());
+        client.setLastName(request.getLastName());
+        client.setEmail(request.getEmail());
+        client.setPhone(request.getPhone());
+        client.setDateOfBirth(request.getDateOfBirth());
+        client.setGender(request.getGender());
+        client.setAddress(request.getAddress());
+        client.setOccupation(request.getOccupation());
+
+        log.info("Client updated with ID: {}", id);
+        return toResonse(clientRepository.save(client));
+
+    }
+
+    @Transactional
+    public ClientResponse updateKycStatus(Long id, KycUpdateRequest request) {
+        Client client = findorThrow(id);
+        client.setKycStatus(ruest.getKycStatus());
+        log.info("Updating Kyc Statu for client {} to {}" , id, request.getKycStatus());
+        return toResponse(clientRepository.save(client));v
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        findOrThrow(id);
+        clientRepository.deletebyId(id);
+        log.info("Client deleted with ID: {}", id)
+    }
+
+    //helrs
+    private Client findOrThrow(Long id) {
+        return clientRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Client not found with id: " + id));
+    }
+
+    private ClientResponse toResponse(Client client) {
+        return ClientResponse.builder()
+                .id(client.getId())
+                .firstName(client.getFirstName())
+                .lastName(client.getLastName())
+                .email(client.getEmail())
+                .phone(client.getPhone())
+                .idNumber(client.getIdNumber())
+                .dateOfBirth(client.getDateOfBirth())
+                .gender(client.getGender())
+                .kycStatus(client.getKycStatus())
+                .address(client.getAddress())
+                .occupation(client.getOccupation())
+                .createdAt(client.getCreatedAt())
+                .updatedAt(client.getUpdatedAt())
+                .build();
+    }
 }
